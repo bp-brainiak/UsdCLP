@@ -1,0 +1,122 @@
+<!-- Toolbar -->
+
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span>Monitor USD/CLP Spot</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+ 
+    <mat-card>
+      <mat-card-title>USDCLP - SPOT</mat-card-title>
+      <mat-card-content>        
+        <div>
+          <span class="margen20px">BID: <strong>{{bid | number: '1.0-3'}}</strong></span>
+          <span class="margen20px">ASK: <strong>{{ask | number: '1.0-3'}}</strong></span>
+          <span class="margen20px">Spread: <strong>{{spread | number: '1.0-3'}}</strong></span>
+          <span class="margen20px">XRATE: <strong>{{xrate | number: '1.0-3'}}</strong></span>
+        </div>
+        <span style="margin-left:20px">status <span>{{status}}</span></span>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>USDCLP X-RATE Chart</mat-card-title>
+      <mat-card-content>
+        <div class="divAgrupable">
+          <mat-card class="elementoAgrupado">
+            <mat-card-subtitle>
+              <label for="rangeSelector">Rango</label>
+            </mat-card-subtitle>
+            <mat-card-content class="divAgrupable">
+              <mat-button-toggle-group name="range" [(ngModel)]="range" id="rangeSelector">
+                <mat-button-toggle value="1d">1d</mat-button-toggle>
+                <mat-button-toggle value="5d">5d</mat-button-toggle>
+                <mat-button-toggle value="1mo">1mo</mat-button-toggle>
+                <mat-button-toggle value="3mo">3mo</mat-button-toggle>
+                <mat-button-toggle value="6mo">6mo</mat-button-toggle>
+                <mat-button-toggle value="1y">1y</mat-button-toggle>
+                <mat-button-toggle value="5y">5y</mat-button-toggle>
+                <mat-button-toggle value="10y">10y</mat-button-toggle>
+                <mat-button-toggle value="ytd">ytd</mat-button-toggle>
+                <mat-button-toggle value="max">max</mat-button-toggle>
+              </mat-button-toggle-group>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="elementoAgrupado">
+            <mat-card-subtitle><mat-card-subtitle>
+              <label for="intervalSelector">Intervalo</label></mat-card-subtitle>              
+            </mat-card-subtitle>
+            <mat-card-content>
+                <mat-button-toggle-group name="interval" id="intervalSelector" [(ngModel)]="interval">
+                  <mat-button-toggle value="1m">1m</mat-button-toggle>
+                  <mat-button-toggle value="5m">5m</mat-button-toggle>
+                  <mat-button-toggle value="15m">15m</mat-button-toggle>
+                  <mat-button-toggle value="1d">1d</mat-button-toggle>
+                  <mat-button-toggle value="1wk">1wk</mat-button-toggle>
+                  <mat-button-toggle value="1mo">1mo</mat-button-toggle>
+                </mat-button-toggle-group>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="elementoAgrupado"> 
+            <mat-card-subtitle><mat-card-subtitle>
+              <label for="">Recarga</label></mat-card-subtitle>              
+            </mat-card-subtitle>
+            <button kendoButton 
+              [size]="size"
+              [rounded]="rounded"
+              [fillMode]="fillMode"
+              [themeColor]="themeColor"
+            (click)="onButtonClick()">Recargar</button>
+          </mat-card>
+          <mat-card class="elementoAgrupado">
+            Recargar automaticamente: <mat-checkbox [(ngModel)]="recargaAuto" (change)="onChangeDemo($event)"></mat-checkbox><br>
+            Chart Previous Close: {{previousClose | number: '1.0-3'}}
+            <br>
+            <br>
+            <span>Status: <span>{{chartStatus}}</span></span>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+     <mat-card>
+      <kendo-chart [categoryAxis]="{labels: {rotation:rotation}}">
+        <kendo-chart-series >
+          <kendo-chart-series-item
+            type="line"
+            [style]="style"
+            [data]="cModel"
+            field="high"
+            categoryField="timestamp"      
+            [markers]="{ visible: true }"> 
+          </kendo-chart-series-item>
+          <kendo-chart-series-item
+            type="line"
+            [style]="style"
+            [data]="cModel"
+            field="low"
+            categoryField="timestamp"      
+            [markers]="{ visible: true }"> 
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+    </mat-card>
+    <mat-card>
+
+      <kendo-grid [data]="cModelR">
+          |<kendo-grid-column field="timestamp" title="Hora"     ></kendo-grid-column>
+          <kendo-grid-column field="low" title="low" format="{0:c}"></kendo-grid-column>
+          <kendo-grid-column field="high" title="high" format="{0:c}"></kendo-grid-column>
+          <kendo-grid-column field="open" title="open" format="{0:c}"></kendo-grid-column>
+          <kendo-grid-column field="close" title="close" format="{0:c}"></kendo-grid-column> 
+      </kendo-grid>
+    </mat-card>
+
+ 
+ 
+    
+
+
+  <router-outlet>
+  </router-outlet>
+  <!-- Footer -->
+  <footer>
+</footer>

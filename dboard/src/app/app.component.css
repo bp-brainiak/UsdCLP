@@ -1,0 +1,12 @@
+/* la hoja */
+.divAgrupable {
+    display: flex;
+}
+
+.elementoAgrupado {
+    flex: 1 1 auto;
+}
+
+.margen20px{
+    margin-left:20px
+}
