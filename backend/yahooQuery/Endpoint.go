@@ -73,7 +73,7 @@ func GetChart(_range string, _region string, _interval string, _lang string) cha
 		log.Fatal(err)
 	}
 	retornoP = retorno
-	persistance.Create(retornoP, t, _range, _region, _interval, _lang)
+	// persistance.Create(retornoP, t, _range, _region, _interval, _lang)
 	return retorno
 
 }
