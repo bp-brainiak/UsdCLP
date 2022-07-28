@@ -1,4 +1,4 @@
-package model
+package spot
 
 type RetornoSpot struct {
 	QuoteResponse QuoteResponse `json:"quoteResponse"`

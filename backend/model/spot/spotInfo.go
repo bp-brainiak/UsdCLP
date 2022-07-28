@@ -1,4 +1,4 @@
-package model
+package spot
 
 type SpotInfo struct {
 	id                                int

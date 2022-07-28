@@ -5,10 +5,10 @@
     <span>Monitor USD/CLP Spot</span>
   </mat-toolbar-row>
 </mat-toolbar>
- 
+
     <mat-card>
       <mat-card-title>USDCLP - SPOT</mat-card-title>
-      <mat-card-content>        
+      <mat-card-content>
         <div>
           <span class="margen20px">BID: <strong>{{bid | number: '1.0-3'}}</strong></span>
           <span class="margen20px">ASK: <strong>{{ask | number: '1.0-3'}}</strong></span>
@@ -43,7 +43,7 @@
           </mat-card>
           <mat-card class="elementoAgrupado">
             <mat-card-subtitle><mat-card-subtitle>
-              <label for="intervalSelector">Intervalo</label></mat-card-subtitle>              
+              <label for="intervalSelector">Intervalo</label></mat-card-subtitle>
             </mat-card-subtitle>
             <mat-card-content>
                 <mat-button-toggle-group name="interval" id="intervalSelector" [(ngModel)]="interval">
@@ -56,11 +56,11 @@
                 </mat-button-toggle-group>
             </mat-card-content>
           </mat-card>
-          <mat-card class="elementoAgrupado"> 
+          <mat-card class="elementoAgrupado">
             <mat-card-subtitle><mat-card-subtitle>
-              <label for="">Recarga</label></mat-card-subtitle>              
+              <label for="">Recarga</label></mat-card-subtitle>
             </mat-card-subtitle>
-            <button kendoButton 
+            <button kendoButton
               [size]="size"
               [rounded]="rounded"
               [fillMode]="fillMode"
@@ -79,24 +79,29 @@
     </mat-card>
      <mat-card>
       <kendo-chart [categoryAxis]="{labels: {rotation:rotation}}">
+        <kendo-chart-title text="USDCLP"></kendo-chart-title>         
         <kendo-chart-series >
           <kendo-chart-series-item
-            type="line"
+            type="candlestick"
             [style]="style"
             [data]="cModel"
-            field="high"
-            categoryField="timestamp"      
-            [markers]="{ visible: true }"> 
-          </kendo-chart-series-item>
-          <kendo-chart-series-item
-            type="line"
-            [style]="style"
-            [data]="cModel"
-            field="low"
-            categoryField="timestamp"      
-            [markers]="{ visible: true }"> 
+            openField="open"
+            closeField="close" 
+            lowField="low"
+            highField="high"
+            categoryField="timestamp"
+            [markers]="{ visible: true }">
           </kendo-chart-series-item>
         </kendo-chart-series>
+        <kendo-chart-tooltip>
+          <ng-template kendoChartSeriesTooltipTemplate let-value="value">
+            High : {{ value.high | number: '1.0-3' }}<br />
+            Low : {{ value.low | number: '1.0-3'}} <br>
+            <hr>
+            Open : {{ value.open | number: '1.0-3' }}<br />
+            Close  : {{ value.close | number: '1.0-3'}} <br>
+          </ng-template>
+        </kendo-chart-tooltip>
       </kendo-chart>
     </mat-card>
     <mat-card>
@@ -106,13 +111,13 @@
           <kendo-grid-column field="low" title="low" format="{0:c}"></kendo-grid-column>
           <kendo-grid-column field="high" title="high" format="{0:c}"></kendo-grid-column>
           <kendo-grid-column field="open" title="open" format="{0:c}"></kendo-grid-column>
-          <kendo-grid-column field="close" title="close" format="{0:c}"></kendo-grid-column> 
+          <kendo-grid-column field="close" title="close" format="{0:c}"></kendo-grid-column>
       </kendo-grid>
     </mat-card>
 
- 
- 
-    
+
+
+
 
 
   <router-outlet>
