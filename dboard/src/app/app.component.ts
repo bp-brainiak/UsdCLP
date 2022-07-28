@@ -1,5 +1,5 @@
 import { Component,OnInit, OnDestroy } from '@angular/core';
-import { ConfigService } from './config.service';
+import { UsdSpotService } from './usdspot.service';
 import { LabelRotation, LineStyle } from '@progress/kendo-angular-charts';
 import { interval, Subscription  } from 'rxjs';
 import { ThemeService } from '@progress/kendo-angular-charts/common/theme.service';
@@ -21,13 +21,13 @@ export interface chartData  {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [ ConfigService ],
+  providers: [ UsdSpotService ],
 })
 export class AppComponent {
 
 
   // run with  docker run --rm -it -p 8999:80 angular-nginx
-  constructor(private configService: ConfigService) {}
+  constructor(private usdSpotService: UsdSpotService) {}
 
   subscription!: Subscription;
   chartsub!: Subscription
@@ -56,18 +56,19 @@ export class AppComponent {
   public rounded: ButtonRounded = "large";
   public fillMode: ButtonFillMode = "solid";
   public themeColor: ButtonThemeColor = "success";
-  
+
   ngOnInit(){
+
     if(localStorage.getItem("rango") != null) {
       this.range = localStorage.getItem("rango")!;
     }
-    if(localStorage.getItem("rango") != null) { 
+    if(localStorage.getItem("rango") != null) {
       this.interval = localStorage.getItem("intervalo")!
     }
-    
+
     this.getDollarSpot();
-    // this.getChartSpot();
- 
+    this.getChartSpot();
+
     this.chartStatus='Disabled';
     this.status = 'Disabled';
 
@@ -76,7 +77,7 @@ export class AppComponent {
 
   OnDestroy() {
     this.stopSpotInterval();
-    // this.stopChartInterval();
+    this.stopChartInterval();
   }
 
   onChangeDemo(ob: MatCheckboxChange) {
@@ -93,8 +94,8 @@ export class AppComponent {
       this.stopSpotInterval();
       this.stopChartInterval();
     }
- } 
- 
+ }
+
   public onButtonClick(): void {
     this.getDollarSpot();
     this.getChartSpot();
@@ -123,14 +124,14 @@ export class AppComponent {
     localStorage.setItem("intervalo", this.interval);
 
     this.status = 'requesting..';
-    this.configService.getDollar().subscribe((data: any) => {
-      this.status = 'procesing...'; 
+    this.usdSpotService.getDollar().subscribe((data: any) => {
+      this.status = 'procesing...';
       this.processDataAfterRequest(data);
       if(!this.recargaAuto) {
         this.status = 'Disabled';
       }
     });
- 
+
   }
 
   processDataAfterRequest(data: any){
@@ -139,12 +140,12 @@ export class AppComponent {
       this.status = 'ok...';
       this.bid = data.quoteResponse.result[0].bid;
       this.ask = data.quoteResponse.result[0].ask;
-      this.xrate = (this.bid + this.ask) /2; 
+      this.xrate = (this.bid + this.ask) /2;
       this.spread = this.ask - this.bid;
    }
    else
    {
-    this.status = 'different...'; 
+    this.status = 'different...';
    }
 
   }
@@ -152,44 +153,35 @@ export class AppComponent {
   getChartSpot()
   {
     this.chartStatus='Requesting...';
-    this.configService.getChartData(this.range, this.region, this.interval, this.lang)
+    this.usdSpotService.getChartFromBackend(this.range, this.region, this.interval, this.lang)
       .subscribe((data: any)=> {
-        this.processChartData(data);
-      }
+          this.processChartData(data);
+       }
     );
   }
   processChartData(data: any){
     this.chartStatus='Procesando...'
+console.log(data)
     try {
       var quote = data.chart.result[0].indicators.quote[0]
       this.previousClose =  data.chart.result[0].meta.chartPreviousClose;
       this.cModel = [];
       this.cModelR = [];
+      console.log(data.chart.result[0].timestamp.length);
       for(let i=0; i <data.chart.result[0].timestamp.length; i++) {
         var date = new Date(data.chart.result[0].timestamp[i] * 1000);
-        if((this.interval == "1m" || this.interval == "5m" || this.interval == "15m") && this.range == "1d") {
-          if(quote.low[i] != null) {
-            this.cModel.push({
-              "timestamp": this.padZero(date.getHours(),2) + ":" + this.padZero(date.getMinutes(),2),
-              "low": quote.low[i],
-              "high" : quote.high[i],
-              "open" :quote.open[i],
-              "close" :quote.close[i]
-            });  
-          }
-        } else {
-          if(quote.low[i] != null) {
-            this.cModel.push({
-              "timestamp": this.padZero(date.getDate(),2) + "-" + this.padZero(date.getMonth() + 1, 2)+ "-" + date.getFullYear() + " " +  this.padZero(date.getHours(),2) + ":" + this.padZero(date.getMinutes(),2),
-              "low": quote.low[i], 
-              "high" : quote.high[i],
-              "open" :quote.open[i],
-              "close" :quote.close[i]
-            });  
-         }
-        } 
+  
+          this.cModel.push({
+            "timestamp": this.padZero(date.getDate(),2) + "-" + this.padZero(date.getMonth() + 1, 2)+ "-" + date.getFullYear() + " " +  this.padZero(date.getHours(),2) + ":" + this.padZero(date.getMinutes(),2),
+            "low": quote.low[i],
+            "high": quote.high[i],
+            "open": quote.open[i],
+            "close": quote.close[i]
+          }); 
+ 
       }
-      this.chartStatus='Ok..' 
+      this.clearNullData();
+      this.chartStatus='Ok..'
       for(let j = 0; j < this.cModel.length; j++){
         this.cModelR.push(this.cModel[j]);
       }
@@ -203,5 +195,16 @@ export class AppComponent {
     if(!this.recargaAuto) {
       this.chartStatus = 'Disabled';
     }
+  }
+
+  private clearNullData() {
+    var cModel2: chartData[] = [];
+    for(var i = 0; i <this.cModel.length; i++) {
+      if (this.cModel[i].low == null || this.cModel[i].high == null ||this.cModel[i].open == null || this.cModel[i].close == null) {
+        continue;
+      }
+      cModel2.push(this.cModel[i])
+    }
+    this.cModel = cModel2;
   }
 }
