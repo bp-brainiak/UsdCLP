@@ -20,6 +20,7 @@ func Create(chartData chart.ChartModel, requestTime time.Time, _range string, _r
 		ResultData:  fmt.Sprintf("%s", data),
 	}
 	db := GetDatabase()
+	defer CloseConnection(db)
 	db.Create(&chartToPersist)
 
 }

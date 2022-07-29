@@ -27,3 +27,8 @@ func GetDatabase() *gorm.DB {
 	}
 	return db
 }
+
+func CloseConnection(db *gorm.DB) {
+	pgsql, _ := db.DB()
+	pgsql.Close()
+}
