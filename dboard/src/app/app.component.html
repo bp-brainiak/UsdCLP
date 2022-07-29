@@ -64,6 +64,7 @@
               [size]="size"
               [rounded]="rounded"
               [fillMode]="fillMode"
+              
               [themeColor]="themeColor"
             (click)="onButtonClick()">Recargar</button>
           </mat-card>
@@ -85,6 +86,8 @@
             type="candlestick"
             [style]="style"
             [data]="cModel"
+            [color]="'#5CB85C'"
+            [downColor]="'#D9534F'"
             openField="open"
             closeField="close" 
             lowField="low"
