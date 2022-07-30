@@ -48,7 +48,7 @@ export class AppComponent {
   lang: string = 'en';
   recargaAuto: boolean = false;
   previousClose: number=0;
-
+  marketState: string = '';
   cModel: chartData[] = [];
   cModelR: chartData[] = [];
 
@@ -140,6 +140,7 @@ export class AppComponent {
       this.status = 'ok...';
       this.bid = data.quoteResponse.result[0].bid;
       this.ask = data.quoteResponse.result[0].ask;
+      this.marketState = data.quoteResponse.result[0].marketState
       this.xrate = (this.bid + this.ask) /2;
       this.spread = this.ask - this.bid;
    }
