@@ -12,7 +12,7 @@ export class UsdSpotService {
     private httpOptions = {
          headers: new HttpHeaders()
          .set('Content-Type', 'application/json')
-         .set('X-API-KEY','NjU4UkMogG8ad1tthie626TYkVcIaSc11YuEwtk6')
+         .set('X-API-KEY','')
     };
 
     getDollar(): Observable<any> {
@@ -26,14 +26,5 @@ export class UsdSpotService {
         var endpoint = `${environment.bakendHost}/chart?${_range}&${_region}&${_interval}&${_lang}`;
         console.log(endpoint);
         return this.http.get<any>(endpoint);
-    }
-    getChartData(range: string, region: string, interval: string, lang:string ): Observable<any> {
-        //range=1mo&region=US&interval=1d&lang=en&events=div%2Csplit'
-        var _range =`range=${range}`;
-        var _region =`region=${region}`;
-        var _interval =`interval=${interval}`;
-        var _lang =`lang=${lang}`;
-        var endpoint = `${environment.chartEndpoint}${_range}&${_region}&${_interval}&${_lang}`
-        return this.http.get<any>(endpoint, this.httpOptions);
     }
 }

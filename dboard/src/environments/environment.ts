@@ -9,7 +9,8 @@ export const environment = {
   urlEndpoint: 'https://yfapi.net/v6/finance/quote?region=US&lang=es&symbols=USDCLP%3DX',
   urlApiKey: '',
   chartEndpoint: 'https://yfapi.net/v8/finance/chart/USDCLP%3DX?',
-  bakendHost: 'http://localhost:9433'
+  bakendHost: 'http://localhost:9433',
+  cmnf_api:"b6027c6dac746ee3f3f732ba652eaccf36ac9a0d"
 };
 
 /*
