@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators'; 
+import { ThemeService } from "@progress/kendo-angular-charts/common/theme.service";
 
 
 @Injectable() 
@@ -27,4 +28,7 @@ export class UsdSpotService {
         console.log(endpoint);
         return this.http.get<any>(endpoint);
     }
-}
+    getUfFromSbif():Observable<any> {
+        return this.http.get<any>(environment.endPointUF);
+    }
+}    

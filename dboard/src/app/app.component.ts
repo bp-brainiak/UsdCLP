@@ -40,6 +40,7 @@ export class AppComponent {
   ask:number=0;
   spread:number=0;
   xrate:number=0;
+  uf:string='';
   status:string = '';
   chartStatus:string= '';
   range: string = '5d';
@@ -71,7 +72,7 @@ export class AppComponent {
 
     this.chartStatus='Disabled';
     this.status = 'Disabled';
-
+    this.getUf();
 
   }
 
@@ -132,6 +133,13 @@ export class AppComponent {
       }
     });
 
+  }
+
+  getUf() {
+    this.uf= '';
+    this.usdSpotService.getUfFromSbif().subscribe((data:any) =>{
+      this.uf=data.UFs[0].Valor; // + ' al dia ' + data.UFs[0].Fecha
+    });
   }
 
   processDataAfterRequest(data: any){

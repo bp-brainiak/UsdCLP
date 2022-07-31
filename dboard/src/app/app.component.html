@@ -10,11 +10,21 @@
       <mat-card-title>USDCLP - SPOT</mat-card-title>
       <mat-card-content>
         <div>
-          <span class="margen20px">BID: <strong>{{bid | number: '1.0-3'}}</strong></span>
-          <span class="margen20px">ASK: <strong>{{ask | number: '1.0-3'}}</strong></span>
-          <span class="margen20px">Spread: <strong>{{spread | number: '1.0-3'}}</strong></span>
-          <span class="margen20px">XRATE: <strong>{{xrate | number: '1.0-3'}}</strong></span><br>
-          <span class="margen20px">MARKET STATE: <strong> -- {{marketState}} -- </strong></span>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="margen20px">BID: <strong>{{bid | number: '1.0-3'}}</strong></span>
+                <span class="margen20px">ASK: <strong>{{ask | number: '1.0-3'}}</strong></span>
+                <span class="margen20px">Spread: <strong>{{spread | number: '1.0-3'}}</strong></span>
+                <span class="margen20px">XRATE: <strong>{{xrate | number: '1.0-3'}}</strong></span><br>
+                <span class="margen20px">MARKET STATE: <strong> -- {{marketState}} -- </strong></span>
+              </div>
+              <div class="col-md-6">
+                <marquee>Indicadores Econoimicos: UF: <strong>{{uf}}</strong> </marquee>
+
+              </div>
+            </div>
+          </div>
         </div>
         <span style="margin-left:20px">status <span>{{status}}</span></span>
       </mat-card-content>
