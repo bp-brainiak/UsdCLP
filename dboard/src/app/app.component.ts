@@ -41,6 +41,8 @@ export class AppComponent {
   spread:number=0;
   xrate:number=0;
   uf:string='';
+  ipc:string='';
+  utm:string=''
   status:string = '';
   chartStatus:string= '';
   range: string = '5d';
@@ -73,7 +75,8 @@ export class AppComponent {
     this.chartStatus='Disabled';
     this.status = 'Disabled';
     this.getUf();
-
+    this.getIpc();
+    this.getUtm();
   }
 
   OnDestroy() {
@@ -142,6 +145,20 @@ export class AppComponent {
     });
   }
 
+  getUtm(){
+    this.utm= '';
+    this.usdSpotService.getUtmFromSbif().subscribe((data:any) =>{
+      this.utm=data.UTMs[0].Valor; // + ' al dia ' + data.UFs[0].Fecha
+    });
+  }
+
+  getIpc(){
+    this.ipc= '';
+    this.usdSpotService.getIpcFromSbif().subscribe((data:any) =>{
+      this.ipc=data.IPCs[0].Valor; // + ' al dia ' + data.UFs[0].Fecha
+    });
+  }
+  
   processDataAfterRequest(data: any){
    if(data.quoteResponse.result.length == this.cCount)
    {

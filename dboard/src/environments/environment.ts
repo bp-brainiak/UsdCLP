@@ -8,7 +8,8 @@ export const environment = {
   production: false,
   bakendHost: 'http://localhost:9433',
   endPointUF: 'https://api.cmfchile.cl/api-sbifv3/recursos_api/uf?apikey=b6027c6dac746ee3f3f732ba652eaccf36ac9a0d&formato=json',
- 
+  endPointIPC: 'https://api.cmfchile.cl/api-sbifv3/recursos_api/ipc?apikey=b6027c6dac746ee3f3f732ba652eaccf36ac9a0d&formato=json',
+  endPointUTM: 'https://api.cmfchile.cl/api-sbifv3/recursos_api/utm?apikey=b6027c6dac746ee3f3f732ba652eaccf36ac9a0d&formato=json',
 };
 
 /*

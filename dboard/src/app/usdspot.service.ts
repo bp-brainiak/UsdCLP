@@ -31,4 +31,10 @@ export class UsdSpotService {
     getUfFromSbif():Observable<any> {
         return this.http.get<any>(environment.endPointUF);
     }
+    getUtmFromSbif():Observable<any> {
+        return this.http.get<any>(environment.endPointUTM);
+    }
+    getIpcFromSbif():Observable<any> {
+        return this.http.get<any>(environment.endPointIPC);
+    }
 }    
