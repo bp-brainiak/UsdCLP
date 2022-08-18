@@ -14,6 +14,7 @@ export interface chartData  {
   high:number;
   open:number;
   close: number;
+  avg_01: number;
 }
 
 
@@ -202,7 +203,8 @@ console.log(data)
             "low": quote.low[i],
             "high": quote.high[i],
             "open": quote.open[i],
-            "close": quote.close[i]
+            "close": quote.close[i],
+            "avg_01": (quote.open[i]+quote.close[i] + quote.low[i] +quote.high[i])  /4
           }); 
  
       }

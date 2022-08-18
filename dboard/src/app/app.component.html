@@ -84,8 +84,8 @@
  <div class="container-fluid">
     <div class="col-md-12">
        <kendo-chart [categoryAxis]="{labels: {rotation:rotation}}">
-        <kendo-chart-title text="USDCLP"></kendo-chart-title>         
-        <kendo-chart-series >
+        <kendo-chart-title renderAs="canvas" text="USDCLP"></kendo-chart-title>         
+        <kendo-chart-series>
           <kendo-chart-series-item
             type="candlestick"
             [style]="style"
@@ -99,7 +99,16 @@
             categoryField="timestamp"
             [markers]="{ visible: true }">
           </kendo-chart-series-item>
+
+          <kendo-chart-series-item
+            type="line"
+            [data]="cModel"
+            field="avg_01"
+            color="#3740a6"
+          >
+          </kendo-chart-series-item>
         </kendo-chart-series>
+        
         <kendo-chart-tooltip>
           <ng-template kendoChartSeriesTooltipTemplate let-value="value">
             High : {{ value.high | number: '1.0-3' }}<br />
